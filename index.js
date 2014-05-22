@@ -23,19 +23,30 @@ exports.urlSigner = function(key, secret, options){
   };
 
   return {
-    getUrl : function(verb, fname, bucket, propsArray, expiresInMinutes){
+    getUrl : function(verb, fname, bucket, contentMD5, contentType, amz_headers, expiresInMinutes){
       var expires = new Date();
 
       expires.setMinutes(expires.getMinutes() + expiresInMinutes);
 
       var epo = Math.floor(expires.getTime()/1000);
 
-      var str = verb + '\n\n\n' + epo + '\n';
-      if(propsArray && propsArray.length > 0)
+      var str = verb + '\n';
+      if(contentMD5)
+      	str += contentMD5;
+      
+      str += '\n';
+      
+      if(contentType)
+      	str += contentType;
+      
+      str += '\n' + epo + '\n';
+      
+      if(amz_headers && amz_headers.length > 0)
       {
-      	for(var prop in propsArray)
+      	for(var idx in amz_headers)
       	{
-      		str += prop + "\n";
+      		console.log("prop" + amz_headers[idx]);
+      		str += amz_headers[idx] + '\n';
       	}
       }
       
