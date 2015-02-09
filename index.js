@@ -45,7 +45,6 @@ exports.urlSigner = function(key, secret, options){
       {
       	for(var idx in amz_headers)
       	{
-      		console.log("prop" + amz_headers[idx]);
       		str += amz_headers[idx] + '\n';
       	}
       }
